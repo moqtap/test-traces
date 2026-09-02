@@ -1,0 +1,48 @@
+{
+  "name": "@moqtap/test-traces",
+  "version": "0.1.0",
+  "description": "MoQT session trace conformance corpus — checked-in .moqtrace files",
+  "type": "module",
+  "exports": {
+    "./manifest": "./moqtrace/manifest.json",
+    "./moqtrace/*": "./moqtrace/*",
+    "./schema/*": "./schema/*"
+  },
+  "files": [
+    "moqtrace/",
+    "schema/",
+    "LICENSE",
+    "README.md",
+    "CHANGELOG.md"
+  ],
+  "author": "moqtap",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/moqtap/test-traces.git"
+  },
+  "homepage": "https://github.com/moqtap/test-traces#readme",
+  "bugs": {
+    "url": "https://github.com/moqtap/test-traces/issues"
+  },
+  "scripts": {
+    "validate": "python scripts/validate.py",
+    "validate:schema": "node scripts/validate-schema.mjs"
+  },
+  "devDependencies": {
+    "ajv": "^8.17.0",
+    "ajv-formats": "^3.0.0"
+  },
+  "keywords": [
+    "moqt",
+    "moq",
+    "moqtrace",
+    "media-over-quic",
+    "trace",
+    "conformance",
+    "test-fixtures"
+  ]
+}

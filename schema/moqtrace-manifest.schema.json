@@ -1,0 +1,123 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/moqtap/test-traces/schema/moqtrace-manifest.schema.json",
+  "title": "MoQT Trace Corpus Manifest",
+  "description": "Machine-readable index of the .moqtrace conformance corpus: every case, the files it holds, and what a conformant reader must find in them.",
+  "type": "object",
+  "required": ["schema_version", "spec", "description", "cases"],
+  "properties": {
+    "schema_version": {
+      "type": "integer",
+      "const": 1,
+      "description": "Manifest format version."
+    },
+    "spec": {
+      "type": "string",
+      "const": "moqtrace",
+      "description": "Which format the cases are in."
+    },
+    "description": {
+      "type": "string",
+      "description": "What the corpus is and what it claims."
+    },
+    "cases": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/case" }
+    }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "case": {
+      "type": "object",
+      "required": [
+        "id",
+        "description",
+        "files",
+        "version",
+        "segments",
+        "truncated",
+        "protocol",
+        "perspective",
+        "detail",
+        "eventCount",
+        "eventTypes"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z0-9][a-z0-9-]*$",
+          "description": "Directory name under moqtrace/, and the case's contract with consumers."
+        },
+        "description": {
+          "type": "string",
+          "description": "What the case is for, and why the corpus would be weaker without it."
+        },
+        "files": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/file" }
+        },
+        "version": {
+          "type": "integer",
+          "enum": [1, 2],
+          "description": "Format version the file declares in its preamble."
+        },
+        "segments": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "How many segments the file concatenates."
+        },
+        "truncated": {
+          "type": "boolean",
+          "description": "Whether the file stops mid-event, which a reader must report distinctly."
+        },
+        "protocol": {
+          "type": "string",
+          "description": "Header protocol identifier, verbatim — not necessarily one this revision names."
+        },
+        "perspective": {
+          "type": "string",
+          "description": "Header perspective, verbatim — not necessarily one this revision names."
+        },
+        "detail": {
+          "type": "string",
+          "description": "Header detail level, verbatim."
+        },
+        "eventCount": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Events across every segment."
+        },
+        "eventTypes": {
+          "type": "object",
+          "description": "Event discriminant, as a decimal string, to the number of events carrying it. Types no revision defines appear under their own number.",
+          "propertyNames": { "pattern": "^[0-9]+$" },
+          "additionalProperties": { "type": "integer", "minimum": 1 }
+        }
+      },
+      "additionalProperties": false
+    },
+    "file": {
+      "type": "object",
+      "required": ["name", "writer", "bytes"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "pattern": "^[a-z0-9-]+\\.moqtrace$",
+          "description": "File name inside the case directory."
+        },
+        "writer": {
+          "type": "string",
+          "description": "What wrote it. Files of one case carry the same content from different encoders."
+        },
+        "bytes": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Size on disk. The corpus is byte-exact, so this is checked."
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

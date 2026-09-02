@@ -1,0 +1,6 @@
+# The .moqtrace corpus is byte-exact: a checked-in file is the evidence, and
+# a reader that disagrees with it is the finding. Git classifies these as
+# binary today only because they happen to contain NUL bytes, and a smaller
+# case that happens not to would be line-ending-converted on a `core.autocrlf`
+# checkout — CBOR silently corrupted by the one tool nobody suspects.
+*.moqtrace binary
