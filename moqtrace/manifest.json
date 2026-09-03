@@ -198,6 +198,33 @@
       }
     },
     {
+      "id": "v2-error-with-raw",
+      "description": "The only file in the corpus where the cap on the \"raw\" key of Event 6 is applied rather than described. Its first error event carries exactly ERROR_RAW_CAP bytes with a \"rawlen\" of 9000: the two numbers disagree, which is the entire mechanism by which a reader learns a capture is partial and by how much. It is also the only case reaching the 16-bit CBOR byte-string length form (0x59 and two bytes) - every other byte string in the corpus is under 256 bytes and takes the 0x58 form, so no other case would catch two encoders disagreeing about the longer prefix. The second error carries no stream and no bytes, which is what the transport-side emission sites produce; the third carries a kind outside the vocabulary this revision names, and a complete capture whose \"rawlen\" equals its own length - the signal meaning not-truncated, which says something only because the first event can say otherwise.",
+      "files": [
+        {
+          "name": "js.moqtrace",
+          "writer": "@moqtap/trace",
+          "bytes": 4544
+        },
+        {
+          "name": "rust.moqtrace",
+          "writer": "moqtap-trace",
+          "bytes": 4510
+        }
+      ],
+      "version": 2,
+      "segments": 1,
+      "truncated": false,
+      "protocol": "moq-transport-19",
+      "perspective": "observer",
+      "detail": "full",
+      "eventCount": 4,
+      "eventTypes": {
+        "1": 1,
+        "6": 3
+      }
+    },
+    {
       "id": "v2-extra-keys",
       "description": "Known event types carrying keys no reader knows, and no reader ever will: every key is \"x-\" prefixed, the range SPEC.md reserves for private use, so no revision can claim one and turn this fixture into a test of something else. One value is a nested map holding a byte string, a further map and an array, because preservation has to be structural — a shallow copy passes every flat assertion and loses that one.",
       "files": [
