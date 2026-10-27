@@ -78,7 +78,7 @@
     },
     {
       "id": "capture-observer-draft18-moq-rs",
-      "description": "The same against moq-rs on draft-18, where each request takes its own bidirectional stream: four stream-opened events all declaring stream 0, plus an error event. The unified SETUP message type (0x2F00) appears here and nowhere else in the corpus.",
+      "description": "The same against moq-rs on draft-18, recorded before the proxy reported stream IDs: four stream-opened events (both control streams, and one subgroup stream twice) all declaring stream 0, plus an error event. The unified SETUP message type (0x2F00) appears in the two draft-18 observer captures and nowhere else in the corpus.",
       "files": [
         {
           "name": "capture.moqtrace",
@@ -98,6 +98,32 @@
         "1": 4,
         "2": 3,
         "3": 6,
+        "6": 1,
+        "7": 3
+      }
+    },
+    {
+      "id": "capture-observer-draft18-moq-rs-stream-ids",
+      "description": "The same session against moq-rs on draft-18, with stream IDs: SETUP on control streams 2 and 3, SUBSCRIBE and SUBSCRIBE_OK on request stream 0, and two subgroup streams on 7 and 11. Request and control streams have no stream-opened event, since the format has no stream type for them.",
+      "files": [
+        {
+          "name": "capture.moqtrace",
+          "writer": "moqtap CLI, against a third-party relay",
+          "bytes": 1469
+        }
+      ],
+      "version": 2,
+      "segments": 1,
+      "truncated": false,
+      "protocol": "moq-transport-14",
+      "perspective": "observer",
+      "detail": "headers",
+      "eventCount": 27,
+      "eventTypes": {
+        "0": 4,
+        "1": 2,
+        "2": 3,
+        "3": 14,
         "6": 1,
         "7": 3
       }
