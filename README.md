@@ -109,17 +109,21 @@ snake_case map, an empty map for a message nothing was decoded from, and a
 nested map. The second omits the key entirely, which the spec forbids a writer
 to do and requires a reader to survive: Event 0 is a type sampling MUST NOT
 drop, so rejecting the omission discards exactly what the format promises to
-keep. The shipped Rust reader did that until this case existed. A fourth shape
-— a `"msg"` that is not a map at all — needs no case of its own, because every
+keep. A fourth shape, a `"msg"` that is not a map at all, needs no case of its
+own, because every
 `capture-*` file already carries a Rust debug string there.
 
 `v2-headers-level-flow` is the case for a `"headers"` recording, where the
 stream-header identifiers are the only way to group anything: no payload is
-kept and no level of this format records the bytes of a `SUBGROUP_HEADER`, a
-fetch header or a datagram header, so `"ta"`, `"sg"`, `"fri"` and `"g"` are
-all the file has to say which track a stream carried. Its three streams share
-one track alias on purpose — legal, ordinary, and the reason the alias alone
-cannot key a flow.
+kept and Event 1's `"hdr"` is optional, so `"ta"`, `"sg"`, `"fri"` and `"g"`
+are all such a file has to say which track a stream carried. Its three streams
+share one track alias on purpose: that is legal and ordinary, and it is why the
+alias alone cannot key a flow.
+
+`v2-stream-header-bytes` is the same shape with `"hdr"` on every stream: the
+bytes of a draft-18 `SUBGROUP_HEADER`, a fetch header and a datagram header.
+On its last stream `"ta"` disagrees with the bytes. A reader keeps the event;
+the bytes are the evidence.
 
 The `capture-*` cases are real sessions, not constructed ones: a `moqtap peek`
 or `moqtap intercept` run against `cloudflare/moq-rs` or `meetecho/imquic`,

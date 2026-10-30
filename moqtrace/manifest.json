@@ -412,6 +412,33 @@
       }
     },
     {
+      "id": "v2-stream-header-bytes",
+      "description": "Event 1 carrying the stream header bytes under \"hdr\", on a draft-18 headers-level trace: a SUBGROUP_HEADER, a fetch header, and a datagram header (its bytes before the payload, with a five-byte varint group past 2^32). On the last stream \"ta\" says 9 while the bytes say 8: the bytes are the evidence, and a reader keeps the event.",
+      "files": [
+        {
+          "name": "js.moqtrace",
+          "writer": "@moqtap/trace",
+          "bytes": 507
+        },
+        {
+          "name": "rust.moqtrace",
+          "writer": "moqtap-trace",
+          "bytes": 374
+        }
+      ],
+      "version": 2,
+      "segments": 1,
+      "truncated": false,
+      "protocol": "moq-transport-18",
+      "perspective": "observer",
+      "detail": "headers",
+      "eventCount": 6,
+      "eventTypes": {
+        "1": 4,
+        "3": 2
+      }
+    },
+    {
       "id": "v2-tag64",
       "description": "The v2-basic content with byte strings wrapped in RFC 8746 tag 64 — what cbor-x emits unless configured not to. Readers must accept it, for the same reason. JavaScript-authored only.",
       "files": [
